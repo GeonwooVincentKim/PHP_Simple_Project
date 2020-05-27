@@ -1,0 +1,72 @@
+﻿<html>
+	<head>
+		<title>
+			게시판
+		</title>
+		<script>
+			function Write_GO(){
+				alert("글쓰기창으로 이동합니다.");
+				location.href = "Write.html";
+			}
+			
+			function Log_GO(){
+				alert("로그인창으로 이동합니다.");
+				location.href = "Chk_IF.html";
+			}
+			
+			function Logout_GO(){
+				alert("로그아웃 되었습니다.");
+				location.href = "RelCooID.php";
+			}
+		</script>
+	</head>
+	<body>
+		<table border = "1">
+			<tr>
+				<td colspan = "6" style = "text-align:center;"
+				width = "800px" height = "100px">
+					자유게시판
+				</td>
+			</tr>
+			<tr height = "40px" style="text-align:center;">
+				<td width = "35px">번호</td>
+				<td width = "100px">아이디</td>
+				<td width = "300px">제목</td>
+				<td width = "180px">입력날짜</td>
+				<td width = "180px">최종수정날짜</td>
+				<td width = "50px">조회수</td>
+			</tr>
+			<?
+				$on = 0;
+				$con = mysql_connect('localhost', 'root', 'apmsetup');
+				$dbcon = mysql_select_db('getsipan', $con);
+				$result = mysql_query("SELECT * from getsipan");
+				while($row = mysql_fetch_array($result, MYSQL_BOTH)){
+					if($on != 1) $on = 1;
+					echo "<tr style = \"text-align:center;\"><td>";
+					echo $row["num"]."</td><td>";
+					echo $row["id"]."</td><td><a href = \"Read.html?num=".$row["num"]."\">";
+					echo $row["title"]."</td><td>";
+					echo $row["date"]."</td><td>";
+					echo $row["lastdate"]."</td><td>";
+					echo $row["hits"]."</td>";
+					echo "</tr>";
+				}
+				
+				if($on == 0){
+					echo "<tr><td colspan = \"5\" style = \"text-align:center;\">";
+					echo "데이터가 존재하지 않습니다</td></tr>";
+				}
+			?>
+		</table>
+			<input type = "button" value = "글쓰기" onclick = "Write_GO();">
+			<?
+				if(!$_COOKIE["Coo_ID"]) {
+					echo "<input type = \"button\" value = \"로그인\" onclick = \"Log_GO();\">";
+				}
+				else {
+					echo "<input type = \"button\" value = \"로그아웃\" onclick = \"Logout_GO();\">";
+				}
+			?>
+	</body>
+</html>

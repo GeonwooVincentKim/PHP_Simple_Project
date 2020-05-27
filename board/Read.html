@@ -1,0 +1,44 @@
+﻿<?
+	if(!$_GET["num"]){
+		echo "<script>
+			alert(\"올바른 접근이 아닙니다.\");
+			location.href = \"Main_Board.html\";
+			</script>";
+	}
+	$con = mysql_connect("localhost", "root", "apmsetup");
+	$dbcon = mysql_select_db("getsipan", $con);
+	$result = mysql_query("SELECT * from getsipan WHERE num = '".$_GET["num"]."'");
+	$row = mysql_fetch_array($result, MYSQL_BOTH);
+	mysql_query("UPDATE getsipan SET hits = hits + 1 WHERE num = ".$_GET["num"]);
+?>
+<html>
+	<head>
+		<title>게시글</title>
+	</head>
+	<body>
+		<form action = "ReWrite.html" name = "FN_ReWRI" method = "POST">
+			<table border = "1">
+				<tr height = "50px" style = "text-align:center;">
+					<td colspan = "2">게시글</td>
+				</tr>
+				<tr height = "30px">
+					<td width = "150px">아이디 <input type = "text" name = "id" value = "<?=$row["id"]?>" readonly size = "8"></td>
+					<td width = "320px">제목 <input type = "text" name = "title" size = "35px" value = "<?=$row["title"]?>" readonly></td>
+				</tr>
+				<tr>
+					<td colspan = "2" style = "text-align:center;">본문</td>
+				</tr>
+				<tr height = "400px">
+					<td colspan = "2"><textarea name = "contents" rows = "30" cols = "65" readonly><?=$row["contents"]?></textarea></td>
+				</tr>
+			</table>
+			<input type = "hidden" name = "num" value = "<?=$row["num"]?>">
+			<?
+				if($_COOKIE["Coo_ID"] == $row["id"]){
+					echo "<input type = \"submit\" value = \"수정하기\">";
+				}
+			?>
+			<input type = "button" value = "뒤로가기" onclick = "location.href = 'Main_Board.html'">
+		</form>
+	</body>
+</html>

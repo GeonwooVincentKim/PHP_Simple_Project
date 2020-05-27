@@ -1,0 +1,38 @@
+﻿<html>
+	<head>
+		<title>회원가입</title>
+	</head>
+	<script>
+		function Blk_Chk(){
+			if(FN_LOGIN.fn_ID.value == ""){
+				alert("아이디를 입력해주세요.");
+				FN_LOGIN.fn_ID.focus();
+				return false;
+			}
+			else if(FN_LOGIN.fn_PW.value == ""){
+				alert("비밀번호를 입력해주세요.");
+				FN_LOGIN.fn_PW.focus();
+				return false;
+			}
+			FN_LOGIN.submit();
+		}
+		function Cancle(){
+			history.back();
+		}
+	</script>
+	<body>
+		<form action = "Gaip_Chk.php" method = "POST" name = "FN_LOGIN">
+			<table border = "1">
+				<tr>
+					<td colspan = "2" style = "text-align:center;" height = "50px">회원가입 창</td>
+				</tr>
+				<tr height = "40px">
+					<td>아이디　<input type = "text" name = "fn_ID" onkeydown = "if(event.keyCode == 13) FN_LOGIN.fn_PW.focus();">  <br/></td>
+					<td>비밀번호　<input type = "password" name = "fn_PW" onkeydown = "if(event.keyCode == 13) Blk_Chk();">  <br/></td>
+				</tr>
+			</table>
+			<input type = "button" value = "가입하기" onclick = "Blk_Chk();">
+			<input type = "button" value = "취소" onclick = "Cancle();">
+		</form>
+	</body>
+</html>
